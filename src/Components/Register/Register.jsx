@@ -11,8 +11,29 @@ const Register = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    // create user
     setSuccess(false);
+    setErrorMassage("");
+    // password validation
+
+    const passwordRegEx = /(?=.*\d)/;
+    const passwordRegEx2 = /(?=.*[a-z])/;
+    const passwordRegEx3 = /(?=.*[A-Z])/;
+    const passwordRegEx4 = /.{8,}/;
+    if (passwordRegEx.test(password) === false) {
+      setErrorMassage("add any degit 1,2,3");
+      return;
+    } else if (passwordRegEx2.test(password) === false) {
+      setErrorMassage("add any lowercase word");
+      return;
+    } else if (passwordRegEx3.test(password) === false) {
+      setErrorMassage("add any upercatcase word");
+      return;
+    } else if (passwordRegEx4.test(password) === false) {
+      setErrorMassage("password must be 8 creature");
+      return;
+    }
+
+    // create user
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
@@ -21,6 +42,7 @@ const Register = () => {
       })
       .catch((error) => {
         console.log(error);
+        setErrorMassage(error.massage);
       });
   };
 
@@ -120,21 +142,22 @@ const Register = () => {
             required
             autoComplete="current-password"
             placeholder="Password"
-            minLength="8"
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+            // minLength="8"
+            // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+            // title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
           />
         </label>
-        <p className="validator-hint hidden">
+        {/* <p className="validator-hint hidden">
           Must be more than 8 characters, including
           <br />
           At least one number <br />
           At least one lowercase letter <br />
           At least one uppercase letter
-        </p>
+        </p> */}
         <br />
         <input className="btn btn-primary" type="submit" value="submit" />
       </form>
+      {errorMassage && <p className="text-red-700">{errorMassage}</p>}
       {success && <p className="text-green-500">user Register success full</p>}
     </div>
   );
