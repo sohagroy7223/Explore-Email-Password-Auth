@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../Firebase/Firebase.init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
@@ -179,6 +180,12 @@ const Register = () => {
         </fieldset>
         <br />
         <input className="btn btn-primary" type="submit" value="submit" />
+        <p>
+          I already have an account{" "}
+          <Link className="text-blue-600 underline font-bold" to="/login">
+            Login
+          </Link>
+        </p>
       </form>
       {errorMassage && <p className="text-red-700">{errorMassage}</p>}
       {success && <p className="text-green-500">user Register success full</p>}
