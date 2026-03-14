@@ -1,10 +1,15 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../../Firebase/Firebase.init";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
   const [success, setSuccess] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const handelChange = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handelFormSubmit = (e) => {
     e.preventDefault();
@@ -47,7 +52,7 @@ const Register = () => {
   };
 
   return (
-    <div className=" text-center max-w-md mx-auto p-2 mt-24">
+    <div className=" text-center max-w-md mx-auto p-2 mt-16">
       <h2 className="text-3xl font-bold mb-4 text-white">Please Register</h2>
       <form
         onSubmit={handelFormSubmit}
@@ -136,16 +141,21 @@ const Register = () => {
               <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </g>
           </svg>
-          <input
-            type="password"
-            name="password"
-            required
-            autoComplete="current-password"
-            placeholder="Password"
-            // minLength="8"
-            // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-            // title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
-          />
+          <div onClick={handelChange} className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              required
+              autoComplete="current-password"
+              placeholder="Password"
+              // minLength="8"
+              // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              // title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
+            />
+            <button className="absolute ml-22 mt-1">
+              {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+            </button>
+          </div>
         </label>
         {/* <p className="validator-hint hidden">
           Must be more than 8 characters, including
