@@ -1,8 +1,22 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import React from "react";
+import { auth } from "../../Firebase/Firebase.init";
 
 const Register = () => {
   const handelFormSubmit = (e) => {
     e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    // create user
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -36,10 +50,8 @@ const Register = () => {
             name="name"
             required
             placeholder="Input your name"
-            pattern="[A-Za-z][A-Za-z0-9\-]*"
-            minLength="3"
+            minLength="1"
             maxLength="30"
-            title="Only letters, numbers or dash"
           />
         </label>
         <p className="validator-hint hidden">
