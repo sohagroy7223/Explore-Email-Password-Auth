@@ -1,18 +1,23 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { auth } from "../../Firebase/Firebase.init";
 
 const Register = () => {
+  const [success, setSuccess] = useState(false);
+  const [errorMassage, setErrorMassage] = useState("");
+
   const handelFormSubmit = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
     // create user
+    setSuccess(false);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
+        setSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -24,7 +29,7 @@ const Register = () => {
       <h2 className="text-3xl font-bold mb-4 text-white">Please Register</h2>
       <form
         onSubmit={handelFormSubmit}
-        className="border  rounded-2xl p-8 space-y-4"
+        className="border-2 shadow-2xl border-blue-900 rounded-2xl p-8 space-y-4"
       >
         {/* name section */}
 
@@ -79,7 +84,13 @@ const Register = () => {
               <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
             </g>
           </svg>
-          <input type="email" name="email" placeholder="Your Email" required />
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="Your Email"
+            required
+          />
         </label>
         <div className="validator-hint hidden">Enter valid email address</div>
         <br />
@@ -107,6 +118,7 @@ const Register = () => {
             type="password"
             name="password"
             required
+            autoComplete="current-password"
             placeholder="Password"
             minLength="8"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
@@ -123,6 +135,7 @@ const Register = () => {
         <br />
         <input className="btn btn-primary" type="submit" value="submit" />
       </form>
+      {success && <p className="text-green-500">user Register success full</p>}
     </div>
   );
 };
