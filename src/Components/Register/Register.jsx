@@ -15,6 +15,12 @@ const Register = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const trams = e.target.trams.checked;
+
+    if (trams === false) {
+      setErrorMassage("please accept our trams and condition");
+      return;
+    }
 
     setSuccess(false);
     setErrorMassage("");
@@ -52,7 +58,7 @@ const Register = () => {
   };
 
   return (
-    <div className=" text-center max-w-md mx-auto p-2 mt-16">
+    <div className=" text-center max-w-md mx-auto p-2 mt-10">
       <h2 className="text-3xl font-bold mb-4 text-white">Please Register</h2>
       <form
         onSubmit={handelFormSubmit}
@@ -164,6 +170,13 @@ const Register = () => {
           At least one lowercase letter <br />
           At least one uppercase letter
         </p> */}
+        <br />
+        <fieldset className="fieldset bg-base-100 border-base-300 rounded-box  border p-4">
+          <label className="label">
+            <input type="checkbox" name="trams" className="checkbox" />
+            trams and condition
+          </label>
+        </fieldset>
         <br />
         <input className="btn btn-primary" type="submit" value="submit" />
       </form>
