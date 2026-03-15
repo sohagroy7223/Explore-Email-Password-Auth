@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import { auth } from "../../Firebase/Firebase.init";
 
 const Login = () => {
+  const [success, setSuccess] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
 
   const handelLogin = (e) => {
@@ -12,6 +13,7 @@ const Login = () => {
     const password = e.target.password.value;
 
     // reset
+    setSuccess(false);
     setErrorMassage("");
 
     // user login
@@ -19,6 +21,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result.user);
+        setSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -64,6 +67,7 @@ const Login = () => {
         </p>
       </form>
       {errorMassage && <p className="text-red-600">{errorMassage}</p>}
+      {success && <p className="text-green-600">user login successfully</p>}
     </div>
   );
 };
