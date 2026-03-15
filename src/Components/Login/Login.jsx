@@ -1,27 +1,69 @@
-import React from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import React, { useState } from "react";
+import { Link } from "react-router";
+import { auth } from "../../Firebase/Firebase.init";
 
 const Login = () => {
+  const [errorMassage, setErrorMassage] = useState("");
+
+  const handelLogin = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    // reset
+    setErrorMassage("");
+
+    // user login
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+        setErrorMassage(error.message);
+      });
+  };
+
   return (
-    <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col">
-        <div className="text-center lg:text-left ">
-          <h1 className="text-5xl font-bold">Login now!</h1>
+    <div className="text-center max-w-md mx-auto p-2 mt-10">
+      <h2 className="text-4xl font-bold mb-4 text-white">Login now</h2>
+      <form
+        onSubmit={handelLogin}
+        className="fieldset border-2 shadow-2xl border-blue-900 rounded-2xl p-8  space-y-4"
+      >
+        <label className="label">Email</label>
+        <input
+          type="email"
+          name="email"
+          autoComplete="email"
+          className="input"
+          placeholder="Your Email"
+        />
+        <label className="label">Password</label>
+        <input
+          type="password"
+          name="password"
+          autoComplete="current-password"
+          className="input"
+          placeholder="Your Password"
+        />
+        <div className="text-start font-medium hover:text-blue-500 hover:underline">
+          <Link to="">forgot password</Link>
         </div>
-        <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mt-3">
-          <div className="card-body">
-            <fieldset className="fieldset">
-              <label className="label">Email</label>
-              <input type="email" className="input" placeholder="Email" />
-              <label className="label">Password</label>
-              <input type="password" className="input" placeholder="Password" />
-              <div>
-                <a className="link link-hover">Forgot password?</a>
-              </div>
-              <button className="btn btn-neutral mt-4">Login</button>
-            </fieldset>
-          </div>
-        </div>
-      </div>
+        <button className="btn btn-primary mt-4">Login</button>
+        <p>
+          create a new account?{" "}
+          <Link
+            className="text-blue-500 text-md font-bold underline"
+            to="/register"
+          >
+            Register
+          </Link>
+        </p>
+      </form>
+      {errorMassage && <p className="text-red-600">{errorMassage}</p>}
     </div>
   );
 };

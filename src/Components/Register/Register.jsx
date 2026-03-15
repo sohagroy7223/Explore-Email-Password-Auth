@@ -181,7 +181,7 @@ const Register = () => {
         <br />
         <input className="btn btn-primary" type="submit" value="submit" />
         <p>
-          I already have an account{" "}
+          I already have an account?{" "}
           <Link className="text-blue-600 underline font-bold" to="/login">
             Login
           </Link>
