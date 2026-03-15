@@ -11,6 +11,7 @@ const Register = () => {
   const [success, setSuccess] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const handelChange = () => {
     setShowPassword(!showPassword);
   };
@@ -53,10 +54,12 @@ const Register = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         console.log(result);
+
         // email verified***
+
         sendEmailVerification(auth.currentUser).then(() => {
-          alert("please check your email and verified id");
           setSuccess(true);
+          alert("we send you a verification email,please check your email");
         });
       })
       .catch((error) => {
@@ -155,7 +158,7 @@ const Register = () => {
               <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
             </g>
           </svg>
-          <div onClick={handelChange} className="relative">
+          <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
@@ -166,7 +169,7 @@ const Register = () => {
               // pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
               // title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
             />
-            <button className="absolute ml-22 mt-1">
+            <button onClick={handelChange} className="absolute ml-22 mt-1 ">
               {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
             </button>
           </div>

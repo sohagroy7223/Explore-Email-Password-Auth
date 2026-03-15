@@ -2,10 +2,16 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../../Firebase/Firebase.init";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [success, setSuccess] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handelChange = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handelLogin = (e) => {
     e.preventDefault();
@@ -22,7 +28,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         if (!result.user.emailVerified) {
-          alert("we send you a email, please verified");
+          alert(" please verified your email address");
         } else {
           setSuccess(true);
         }
@@ -38,24 +44,30 @@ const Login = () => {
       <h2 className="text-4xl font-bold mb-4 text-white">Login now</h2>
       <form
         onSubmit={handelLogin}
-        className="fieldset border-2 shadow-2xl border-blue-900 rounded-2xl p-8  space-y-4"
+        className="fieldset border-2 shadow-2xl border-blue-900 rounded-2xl p-8  space-y-6  "
       >
-        <label className="label">Email</label>
-        <input
-          type="email"
-          name="email"
-          autoComplete="email"
-          className="input"
-          placeholder="Your Email"
-        />
-        <label className="label">Password</label>
-        <input
-          type="password"
-          name="password"
-          autoComplete="current-password"
-          className="input"
-          placeholder="Your Password"
-        />
+        <div>
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            className="input"
+            placeholder="Your Email"
+          />
+        </div>
+
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            autoComplete="current-password"
+            className="input"
+            placeholder="Your Password"
+          />
+          <button onClick={handelChange} className=" absolute -ml-6 mt-3.5 ">
+            {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+          </button>
+        </div>
         <div className="text-start font-medium hover:text-blue-500 hover:underline">
           <Link to="">forgot password</Link>
         </div>
