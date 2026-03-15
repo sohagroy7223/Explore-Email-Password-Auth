@@ -1,5 +1,8 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState } from "react";
+import {
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router";
 import { auth } from "../../Firebase/Firebase.init";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -8,6 +11,7 @@ const Login = () => {
   const [success, setSuccess] = useState(false);
   const [errorMassage, setErrorMassage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const emailRef = useRef();
 
   const handelChange = () => {
     setShowPassword(!showPassword);
@@ -39,6 +43,13 @@ const Login = () => {
       });
   };
 
+  const handelForgetPassword = () => {
+    const email = emailRef.current.value;
+    sendPasswordResetEmail(auth, email).then(() => {
+      alert("a password reset email is send , please check your email");
+    });
+  };
+
   return (
     <div className="text-center max-w-md mx-auto p-2 mt-10">
       <h2 className="text-4xl font-bold mb-4 text-white">Login now</h2>
@@ -50,6 +61,7 @@ const Login = () => {
           <input
             type="email"
             name="email"
+            ref={emailRef}
             autoComplete="email"
             className="input"
             placeholder="Your Email"
@@ -68,8 +80,11 @@ const Login = () => {
             {showPassword ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
           </button>
         </div>
-        <div className="text-start font-medium hover:text-blue-500 hover:underline">
-          <Link to="">forgot password</Link>
+        <div
+          onClick={handelForgetPassword}
+          className="text-start font-medium hover:text-blue-500 hover:underline"
+        >
+          <Link>forgot password</Link>
         </div>
         <button className="btn btn-primary mt-4">Login</button>
         <p>
