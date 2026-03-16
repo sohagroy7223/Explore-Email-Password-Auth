@@ -1,4 +1,5 @@
 import {
+  GithubAuthProvider,
   GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -66,6 +67,18 @@ const Login = () => {
       });
   };
 
+  const handelLoginWithGitHub = () => {
+    console.log("sign in with github");
+    const gitHubProvider = new GithubAuthProvider();
+    signInWithPopup(auth, gitHubProvider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="text-center max-w-md mx-auto p-2 mt-10">
       <h2 className="text-4xl font-bold mb-4 text-white">Login now</h2>
@@ -118,6 +131,12 @@ const Login = () => {
         className="btn bg-white text-black mt-4"
       >
         sign in with google
+      </button>
+      <button
+        onClick={handelLoginWithGitHub}
+        className="btn bg-white text-black mt-4"
+      >
+        sign in with GitHub
       </button>
       {errorMassage && <p className="text-red-600">{errorMassage}</p>}
       {success && <p className="text-green-600">user login successfully</p>}
