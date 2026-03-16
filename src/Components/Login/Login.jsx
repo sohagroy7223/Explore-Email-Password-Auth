@@ -1,6 +1,8 @@
 import {
+  GoogleAuthProvider,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
+  signInWithPopup,
 } from "firebase/auth";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router";
@@ -45,9 +47,23 @@ const Login = () => {
 
   const handelForgetPassword = () => {
     const email = emailRef.current.value;
-    sendPasswordResetEmail(auth, email).then(() => {
-      alert("a password reset email is send , please check your email");
-    });
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("a password reset email is send , please check your email");
+      })
+      .catch((error) => {
+        setErrorMassage(error.message);
+      });
+  };
+  const provider = new GoogleAuthProvider();
+  const handelLoginWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -97,6 +113,12 @@ const Login = () => {
           </Link>
         </p>
       </form>
+      <button
+        onClick={handelLoginWithGoogle}
+        className="btn bg-white text-black mt-4"
+      >
+        sign in with google
+      </button>
       {errorMassage && <p className="text-red-600">{errorMassage}</p>}
       {success && <p className="text-green-600">user login successfully</p>}
     </div>
